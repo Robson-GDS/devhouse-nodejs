@@ -4,3 +4,4 @@
 # Tecnologias
 - NodeJS
 - Express
+- mongoDB
