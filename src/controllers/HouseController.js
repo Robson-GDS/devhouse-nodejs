@@ -2,6 +2,14 @@ import House from '../models/House'
 
 class HouseController {
 
+  async index(request, response) {
+    const { status } = request.query;
+
+    const houses = await House.find({ status });
+
+    return response.json(houses);
+  }
+
   async store(request, response) {
     const { filename } = request.file;
     const { description, price, location, status } = request.body;
