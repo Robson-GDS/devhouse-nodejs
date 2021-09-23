@@ -1,4 +1,5 @@
-import House from '../models/House'
+import House from '../models/House';
+import User from '../models/User';
 
 class HouseController {
 
@@ -33,7 +34,14 @@ class HouseController {
     const { description, price, location, status } = request.body;
     const { user_id } = request.headers;
 
-    const houses = await House.updateOne({ _id: house_id }, {
+    const user = await User.findById(user_id);
+    const houses = await House.findById(house_id);
+
+    if(String(user._id) !== String(houses.user)) {
+      return response.status(401).json({ error: 'Não autorizado.' });
+    }
+
+    await House.updateOne({ _id: house_id }, {
       user: user_id,
       thumbnail: filename,
       description,
